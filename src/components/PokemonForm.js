@@ -6,8 +6,24 @@ function PokemonForm() {
     <div>
       <h3>Add a Pokemon!</h3>
       <Form
-        onSubmit={() => {
-          console.log("submitting form...");
+        onSubmit={(e) => {
+          let data = {
+            name: e.target.name.value,
+            hp: e.target.hp.value,
+            sprites: {
+              front: e.target.frontUrl.value,
+              back: e.target.backUrl.value
+            }
+          }
+          let body = JSON.stringify(data)
+          let headers = {'content-type': 'application/json'}
+
+          fetch('http://localhost:3001/pokemon', {method: "POST", headers, body})
+          .then(response => {
+            if (response.status === 201) {
+              alert('pokemon has been added!')
+            }
+          })
         }}
       >
         <Form.Group widths="equal">
